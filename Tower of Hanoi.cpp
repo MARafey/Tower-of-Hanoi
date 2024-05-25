@@ -191,6 +191,33 @@ void MoveToBottom(vector<vector<int>> &arr, int size, int tomove, int to)
 	}
 }
 
+bool Compare(vector<vector<int>> &first, vector<vector<int>> &second)
+{
+	for (int i = 0; i < first.size(); i++)
+	{
+		for (int j = 0; j < first[i].size(); j++)
+		{
+			if (first[i][j] != second[i][j])
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+bool CheckIfExists(vector<vector<int>> &arr, vector<vector<vector<int>>> &history)
+{
+	for (int i = 0; i < history.size(); i++)
+	{
+		if (Compare(arr, history[i]))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 int main()
 {
 
@@ -224,12 +251,13 @@ int main()
 
 	bool moveMakde = false;
 
+	// Keeping a hisotry of the towers and the disks that were moved
+	vector<vector<vector<int>>> history;
+
+	history.push_back(arr);
+
 	while (checkIfSolved(arr, size) == 0)
 	{
-		/*system("cls");
-		cout << "Before: " << endl;
-		display(arr, size);*/
-
 		to = (rand() % 3);
 
 		indexToMove = (rand() % size) + 1;
@@ -237,9 +265,18 @@ int main()
 		if ((CheckDisk(arr, size, indexToMove) == true) && (MovedToValidTower(arr, size, indexToMove, to)))
 		{
 
-			MoveToBottom(arr, size, indexToMove, to);
+			vector<vector<int>> temp = arr;
+			MoveToBottom(temp, size, indexToMove, to);
+			// checking if the tower has already been at this state
+			if (CheckIfExists(temp, history))
+			{
+				// return the disk to its original position
+				continue;
+			}
+			arr = temp;
 			moves++;
 			moveMakde = true;
+			history.push_back(arr);
 		}
 
 		/*cout << endl << "After: " << endl;
