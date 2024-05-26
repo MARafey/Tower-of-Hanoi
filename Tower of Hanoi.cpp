@@ -193,6 +193,7 @@ void MoveToBottom(vector<vector<int>> &arr, int size, int tomove, int to)
 
 bool Compare(vector<vector<int>> &first, vector<vector<int>> &second)
 {
+	// simple function to compare two 2d arrays if they are the same
 	for (int i = 0; i < first.size(); i++)
 	{
 		for (int j = 0; j < first[i].size(); j++)
@@ -208,6 +209,9 @@ bool Compare(vector<vector<int>> &first, vector<vector<int>> &second)
 
 bool CheckIfExists(vector<vector<int>> &arr, vector<vector<vector<int>>> &history)
 {
+	// checking if the tower has already been at this state
+	// if it has then return true
+	// if it hasn't then return false
 	for (int i = 0; i < history.size(); i++)
 	{
 		if (Compare(arr, history[i]))
@@ -216,6 +220,22 @@ bool CheckIfExists(vector<vector<int>> &arr, vector<vector<vector<int>>> &histor
 		}
 	}
 	return false;
+}
+int FindBiggestMovableDisk(vector<vector<int>> &arr, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < Columns; j++)
+		{
+			if (arr[i][j] != 0)
+			{
+				if (j == 0)
+				{
+					return arr[i][j];
+				}
+			}
+		}
+	}
 }
 
 int main()
